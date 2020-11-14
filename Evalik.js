@@ -99,6 +99,16 @@ class Evalik {
             return this.eval(alter, env);
         }
 
+        //while-expression
+        if (exp[0] === 'while') {
+            const [_tag, cond, body] = exp;
+            let result;
+            while (this.eval(cond, env)) {
+                result = this.eval(body, env);
+            }
+            return result;
+        }
+
 
         throw `Not inplemented ${JSON.stringify(exp)}`;
     }
