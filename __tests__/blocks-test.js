@@ -1,4 +1,5 @@
 const assert = require('assert');
+const testUtil = require('./test-util')
 
 module.exports = evalik => {
     assert.strictEqual(evalik.eval(
@@ -29,4 +30,6 @@ module.exports = evalik => {
          ['begin',
           ['set', 'data', 10]]
          , 'data']), 10);
+
+    testUtil.test(evalik, `(begin (var x 20) (var y 30) (+ (* x 10) y))`, 230);
 };
