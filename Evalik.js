@@ -30,30 +30,31 @@ class Evalik {
 
         // Math operations
         if (exp[0] === '+') {
-            return this.eval(exp[1]) + this.eval(exp[2]);
+            return this.eval(exp[1], env) + this.eval(exp[2], env);
         }
 
         if (exp[0] === '*') {
-            return this.eval(exp[1]) * this.eval(exp[2]);
+            return this.eval(exp[1], env) * this.eval(exp[2], env);
         }
 
         if (exp[0] === '-') {
-            return this.eval(exp[1]) - this.eval(exp[2]);
+            return this.eval(exp[1], env) - this.eval(exp[2], env);
         }
 
         if (exp[0] === '/') {
-            return this.eval(exp[1]) / this.eval(exp[2]);
+            return this.eval(exp[1], env) / this.eval(exp[2], env);
         }
 
         // Block: sequence of expr
         if (exp[0] === 'begin') {
-            return this._evalBlock(exp, env);
+            const blockEnv = new Environment({}, env);
+            return this._evalBlock(exp, blockEnv);
         }
 
         // Variable declaration: (var foo 5)
         if (exp[0] === 'var') {
             const [_, name, value] = exp;
-            return env.define(name, this.eval(value));
+            return env.define(name, this.eval(value, env));
         }
 
         // Variable access: foo
@@ -74,6 +75,7 @@ class Evalik {
 
         return result;
     }
+
 }
 
 function isNumber(exp) {
@@ -127,5 +129,22 @@ assert.strictEqual(evalik.eval(
      ['var', 'y', 40],
      ['+', ['*', 'x', 'y'], 10]
     ]), 810);
+
+assert.strictEqual(evalik.eval(
+    ['begin',
+     ['var', 'x', 20],
+     ['begin',
+      ['var', 'x', 30], 'x'], 'x']), 20);
+
+assert.strictEqual(evalik.eval(
+    ['begin',
+     ['var', 'value', 20],
+     ['var', 'result',
+      ['begin',
+       ['var', 'x', ['+', 'value', 10]]
+       , 'x']
+     ], 'result']), 30);
+
+
 
 console.log("Assertions passed!");
