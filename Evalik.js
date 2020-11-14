@@ -45,18 +45,34 @@ class Evalik {
             return this.eval(exp[1]) / this.eval(exp[2]);
         }
 
-        // Variable declaration
+        // Block: sequence of expr
+        if (exp[0] === 'begin') {
+            return this._evalBlock(exp, env);
+        }
+
+        // Variable declaration: (var foo 5)
         if (exp[0] === 'var') {
             const [_, name, value] = exp;
             return env.define(name, this.eval(value));
         }
 
-        // Variable access
+        // Variable access: foo
         if (isVariableName(exp)) {
             return env.lookup(exp);
         }
 
         throw `Not inplemented ${JSON.stringify(exp)}`;
+    }
+
+    _evalBlock(block, env) {
+        let result;
+        const [_tag, ...expressions] = block;
+
+        expressions.forEach(exp => {
+            result = this.eval(exp, env);
+        });
+
+        return result;
     }
 }
 
@@ -104,6 +120,12 @@ assert.strictEqual(evalik.eval(['var', 'isAdmin', 'true']), true);
 
 assert.strictEqual(evalik.eval(['var', 'z', ['*', 2, 5]]), 10);
 
-
+// Blocks
+assert.strictEqual(evalik.eval(
+    ['begin',
+     ['var', 'x', 20],
+     ['var', 'y', 40],
+     ['+', ['*', 'x', 'y'], 10]
+    ]), 810);
 
 console.log("Assertions passed!");
