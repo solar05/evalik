@@ -5,7 +5,8 @@ const tests = [
     require('./self-eval-test.js'),
     require('./blocks-test.js'),
     require('./math-test.js'),
-    require('./variables-test.js')
+    require('./variables-test.js'),
+    require('./if-test.js')
 ];
 
 const evalik = new Evalik(new Environment({

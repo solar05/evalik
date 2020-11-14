@@ -45,6 +45,27 @@ class Evalik {
             return this.eval(exp[1], env) / this.eval(exp[2], env);
         }
 
+        // Comparison operators
+        if (exp[0] === '>') {
+            return this.eval(exp[1], env) > this.eval(exp[2], env);
+        }
+
+        if (exp[0] === '>=') {
+            return this.eval(exp[1], env) >= this.eval(exp[2], env);
+        }
+
+        if (exp[0] === '<') {
+            return this.eval(exp[1], env) < this.eval(exp[2], env);
+        }
+
+        if (exp[0] === '<=') {
+            return this.eval(exp[1], env) <= this.eval(exp[2], env);
+        }
+
+        if (exp[0] === '=') {
+            return this.eval(exp[1], env) === this.eval(exp[2], env);
+        }
+
         // Block: sequence of expr
         if (exp[0] === 'begin') {
             const blockEnv = new Environment({}, env);
@@ -68,6 +89,16 @@ class Evalik {
         if (isVariableName(exp)) {
             return env.lookup(exp);
         }
+
+        // if-expression
+        if (exp[0] === 'if') {
+            const [_tag, cond, conseq, alter] = exp;
+            if (this.eval(cond, env)) {
+                return this.eval(conseq, env);
+            }
+            return this.eval(alter, env);
+        }
+
 
         throw `Not inplemented ${JSON.stringify(exp)}`;
     }
