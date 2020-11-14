@@ -48,7 +48,12 @@ class Evalik {
         // Variable declaration
         if (exp[0] === 'var') {
             const [_, name, value] = exp;
-            return env.define(name, value);
+            return env.define(name, this.eval(value));
+        }
+
+        // Variable access
+        if (isVariableName(exp)) {
+            return env.lookup(exp);
         }
 
         throw `Not inplemented ${JSON.stringify(exp)}`;
@@ -63,7 +68,16 @@ function isString(exp) {
     return typeof exp === 'string' && exp[0] === '"' && exp.slice(-1) === '"';
 }
 
-const evalik = new Evalik();
+function isVariableName(exp) {
+    return typeof exp === 'string' && /^[a-zA-Z][a-zA-Z0-9_]*$/.test(exp);
+}
+
+const evalik = new Evalik(new Environment({
+    null: null,
+    true: true,
+    false: false,
+    VERSION: '0.1',
+}));
 
 // Types
 assert.strictEqual(evalik.eval(1), 1);
@@ -79,6 +93,17 @@ assert.strictEqual(evalik.eval(['/', 10, ['/', 6, 3]]), 5);
 
 // Variables
 assert.strictEqual(evalik.eval(['var', 'x', 5]), 5);
+assert.strictEqual(evalik.eval('x'), 5);
+
+assert.strictEqual(evalik.eval(['var', 'y', 15]), 15);
+assert.strictEqual(evalik.eval('y'), 15);
+
+assert.strictEqual(evalik.eval('VERSION'), '0.1');
+
+assert.strictEqual(evalik.eval(['var', 'isAdmin', 'true']), true);
+
+assert.strictEqual(evalik.eval(['var', 'z', ['*', 2, 5]]), 10);
+
 
 
 console.log("Assertions passed!");
