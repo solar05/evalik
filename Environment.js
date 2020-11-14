@@ -26,6 +26,15 @@ class Environment {
     }
 
     /**
+       * Update existing variable
+       */
+
+    assign(name, value) {
+        this.resolve(name).record[name] = value;
+        return value;
+    }
+
+    /**
      * Returns specific env in which a variable is defined, of throws if a variable is undefined
      */
     resolve(name) {

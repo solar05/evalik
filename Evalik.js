@@ -57,6 +57,13 @@ class Evalik {
             return env.define(name, this.eval(value, env));
         }
 
+        // Variable setting (update): (set foo 5)
+        if (exp[0] === 'set') {
+            const [_, name, value] = exp;
+            return env.assign(name, this.eval(value, env));
+        }
+
+
         // Variable access: foo
         if (isVariableName(exp)) {
             return env.lookup(exp);
@@ -144,6 +151,14 @@ assert.strictEqual(evalik.eval(
        ['var', 'x', ['+', 'value', 10]]
        , 'x']
      ], 'result']), 30);
+
+assert.strictEqual(evalik.eval(
+    ['begin',
+     ['var', 'data', 20],
+      ['begin',
+       ['set', 'data', 10]]
+       , 'data']), 10);
+
 
 
 
