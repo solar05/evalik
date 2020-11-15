@@ -10,7 +10,7 @@ class Evalik {
     /**
        * Creates Evalik instance with global env
        */
-    constructor(global = new Environment()) {
+    constructor(global = GlobalEnv) {
         this.global = global;
     }
 
@@ -71,17 +71,31 @@ class Evalik {
             return result;
         }
 
+        //Func calls
+        // (print "Hello, world!")
+        // (+ x 5)
+        // (> foo bar)
+        if (Array.isArray(exp)) {
+            const fn = this.eval(exp[0], env);
+            const args = exp
+                  .slice(1)
+                  .map(arg => this.eval(arg, env));
+
+            // Native functions
+            if (typeof fn === 'function') {
+                return fn(...args);
+            }
+        }
+
         throw `Not inplemented ${JSON.stringify(exp)}`;
     }
 
     _evalBlock(block, env) {
         let result;
         const [_tag, ...expressions] = block;
-
         expressions.forEach(exp => {
             result = this.eval(exp, env);
         });
-
         return result;
     }
 
@@ -94,7 +108,7 @@ class Evalik {
     }
 
     _isVariableName(exp) {
-        return typeof exp === 'string' && /^[a-zA-Z][a-zA-Z0-9_]*$/.test(exp);
+        return typeof exp === 'string' && /^[+\-*/<>=a-zA-Z0-9_]+$/.test(exp);
     }
 
 }
@@ -141,6 +155,9 @@ const GlobalEnv = new Environment({
     '='(op1, op2) {
         return op1 === op2;
     },
+    print(...args) {
+        console.log(...args);
+    }
 });
 
 module.exports = Evalik;

@@ -7,15 +7,13 @@ const tests = [
     require('./math-test.js'),
     require('./variables-test.js'),
     require('./if-test.js'),
-    require('./while-test.js')
+    require('./while-test.js'),
+    require('./built-in-func-test.js')
 ];
 
-const evalik = new Evalik(new Environment({
-    null: null,
-    true: true,
-    false: false,
-    VERSION: '0.1',
-}));
+const evalik = new Evalik();
+
+evalik.eval(['print', '"Tests"', '"started!"']);
 
 tests.forEach(test => test(evalik));
 
