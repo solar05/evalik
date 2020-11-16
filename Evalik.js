@@ -114,8 +114,11 @@ class Evalik {
 
         // decrement by one (dec foo)
         if (exp[0] === 'dec') {
+            const [_tag, name] = exp;
+            const value = env.lookup(name);
+
             const setExp = this._transformer
-                  .transformDecToSet(exp);
+                  .transformDecToSet(name, value);
 
             return this.eval(setExp, env);
         }

@@ -39,7 +39,10 @@ class Transformer {
         return ['set', name, result];
     }
 
-
+    transformDecToSet(name, currentValue) {
+        const result = currentValue - 1;
+        return ['set', name, result];
+    }
 
 };
 

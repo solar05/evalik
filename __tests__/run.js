@@ -12,7 +12,8 @@ const tests = [
     require('./user-defined-function-test.js'),
     require('./lambda-func-test.js'),
     require('./switch-test.js'),
-    require('./increment-test.js')
+    require('./increment-test.js'),
+    require('./decrement-test.js')
 ];
 
 const evalik = new Evalik();
