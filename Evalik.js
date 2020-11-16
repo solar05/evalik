@@ -85,6 +85,14 @@ class Evalik {
             return this.eval(varExpression, env);
         }
 
+        // switch expression (switch (cond1 block1) (cond2 block2) ...)
+        if (exp[0] === 'switch') {
+            const ifExp = this._transformer
+                  .transformSwitchToIf(exp);
+
+            return this.eval(ifExp, env);
+        }
+
         //Lambda func (lambda (x) (* x x))
         if (exp[0] === 'lambda') {
             const [_tag, params, body] = exp;
