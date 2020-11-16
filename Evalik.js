@@ -1,6 +1,7 @@
 const assert = require('assert');
 
 const Environment = require('./Environment.js');
+const Transformer = require('./transform/Transformer.js');
 
 /**
   * Evalik interpeter.
@@ -12,6 +13,7 @@ class Evalik {
        */
     constructor(global = GlobalEnv) {
         this.global = global;
+        this._transformer = new Transformer();
     }
 
 
@@ -77,7 +79,8 @@ class Evalik {
             const [_tag, name, params, body] = exp;
 
             // JIT-transpiling to a var declaration
-            const varExpression = ['var', name, ['lambda', params, body]];
+            const varExpression =
+                  this._transformer.transformDefToVarLambda(exp);
 
             return this.eval(varExpression, env);
         }
