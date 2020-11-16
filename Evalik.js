@@ -76,13 +76,10 @@ class Evalik {
         if (exp[0] === 'def') {
             const [_tag, name, params, body] = exp;
 
-            const fn = {
-                params,
-                body,
-                env //Closure
-            };
+            // JIT-transpiling to a var declaration
+            const varExpression = ['var', name, ['lambda', params, body]];
 
-            return env.define(name, fn);
+            return this.eval(varExpression, env);
         }
 
         //Lambda func (lambda (x) (* x x))
