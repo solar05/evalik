@@ -33,4 +33,14 @@ module.exports = evalik => {
           (fn 30))`,
          160);
 
+    // Recursive function:
+    test(evalik,
+         `(begin
+            (def factorial (x)
+              (if (= x 1)
+              1
+              (* x (factorial (- x 1)))))
+            (factorial 5))`,
+         120);
+
 };
