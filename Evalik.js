@@ -126,8 +126,11 @@ class Evalik {
 
         // Add assign (+= foo)
         if (exp[0] === '+=') {
+            const [_tag, name, num] = exp;
+            const value = env.lookup(name);
+
             const setExp = this._transformer
-                  .transformAddIncToSet(exp);
+                  .transformAddIncToSet(name, value, num);
 
             return this.eval(setExp, env);
         }

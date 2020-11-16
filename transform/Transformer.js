@@ -44,6 +44,11 @@ class Transformer {
         return ['set', name, result];
     }
 
+    transformAddIncToSet(name, currentValue, num) {
+        const result = currentValue + num;
+        return ['set', name, result];
+    }
+
 };
 
 module.exports = Transformer;
