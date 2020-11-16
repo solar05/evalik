@@ -4,7 +4,7 @@ const {test} = require('./test-util');
 module.exports = evalik => {
 
   test(evalik,
-  `
+  `(begin
     (class Point null
       (begin
         (def constructor (this x y)
@@ -14,12 +14,13 @@ module.exports = evalik => {
         (def calc (this)
           (+ (prop this x) (prop this y)))))
     (var p (new Point 10 20))
-    ((prop p calc) p)
-  `,
+    ((prop p calc) p))`,
   30);
 
+
+/*
   test(evalik,
-  `
+  `(begin
     (class Point3D Point
       (begin
         (def constructor (this x y z)
@@ -31,7 +32,8 @@ module.exports = evalik => {
              (prop this z)))))
     (var p (new Point3D 10 20 30))
     ((prop p calc) p)
+   )
   `,
   60);
-
+*/
 };

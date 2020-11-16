@@ -1,5 +1,6 @@
 const Evalik = require('../Evalik.js');
 const Environment = require('../Environment.js');
+const evalikParser = require('../parser/evalikParser.js');
 
 const tests = [
     require('./self-eval-test.js'),
@@ -22,6 +23,11 @@ const tests = [
 const evalik = new Evalik();
 
 evalik.eval(['print', '"Tests"', '"started!"']);
+
+function exec(code) {
+    const exp = evalikParser.parse(code);
+    return evalik.eval(exp);
+}
 
 tests.forEach(test => test(evalik));
 

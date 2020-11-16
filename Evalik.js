@@ -44,8 +44,15 @@ class Evalik {
 
         // Variable setting (update): (set foo 5)
         if (exp[0] === 'set') {
-            const [_, name, value] = exp;
-            return env.assign(name, this.eval(value, env));
+            const [_, ref, value] = exp;
+
+            //Assigment to property
+            if (ref[0] === 'prop') {
+                const [_tag, instance, propName] = ref;
+                const instanceEnv = this.eval(instance, env);
+                return instanceEnv.define(propName, this.eval(value, env));
+            }
+            return env.assign(ref, this.eval(value, env));
         }
 
 
@@ -168,12 +175,11 @@ class Evalik {
             this._evalBody(body, classEnv);
 
             //Class is accesible by name
-            env.define(name, classEnv);
+            return env.define(name, classEnv);
         }
 
         if (exp[0] === 'new') {
-            const classEnv = this.eval(exp[1]);
-
+            const classEnv = this.eval(exp[1], env);
             // An instance of a class is an environment,
             // the parent component of instance environment is set to its class
             const instanceEnv = new Environment({}, classEnv);
@@ -188,9 +194,10 @@ class Evalik {
             return instanceEnv;
         }
 
-        //Property access
+        //Property access (prop <instance> <name>)
         if (exp[0] == 'prop') {
             const [_tag, instance, name] = exp;
+
             const instanceEnv = this.eval(instance, env);
             return instanceEnv.lookup(name);
         }
