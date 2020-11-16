@@ -33,5 +33,4 @@ module.exports = evalik => {
           (fn 30))`,
          160);
 
-
 };

@@ -9,7 +9,8 @@ const tests = [
     require('./if-test.js'),
     require('./while-test.js'),
     require('./built-in-func-test.js'),
-    require('./user-defined-function-test.js')
+    require('./user-defined-function-test.js'),
+    require('./lambda-func-test.js')
 ];
 
 const evalik = new Evalik();

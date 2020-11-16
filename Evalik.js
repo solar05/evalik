@@ -85,6 +85,17 @@ class Evalik {
             return env.define(name, fn);
         }
 
+        //Lambda func (lambda (x) (* x x))
+        if (exp[0] === 'lambda') {
+            const [_tag, params, body] = exp;
+
+            return {
+                params,
+                body,
+                env //Closure
+            };
+        }
+
         //Func calls
         // (print "Hello, world!")
         // (+ x 5)
