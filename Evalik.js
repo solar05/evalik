@@ -185,6 +185,13 @@ class Evalik {
             return env.define(name, classEnv);
         }
 
+        //Inherint expression (super <class name>)
+        if (exp[0] === 'super') {
+            const [_tag, className] = exp;
+            return this.eval(className, env).parent;
+        }
+
+
         if (exp[0] === 'new') {
             const classEnv = this.eval(exp[1], env);
             // An instance of a class is an environment,

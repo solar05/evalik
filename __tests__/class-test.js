@@ -17,10 +17,17 @@ module.exports = evalik => {
     ((prop p calc) p)`,
   30);
 
-
-/*
   test(evalik,
-  `(begin
+  `
+    (class Point null
+      (begin
+        (def constructor (this x y)
+          (begin
+            (set (prop this x) x)
+            (set (prop this y) y)))
+        (def calc (this)
+          (+ (prop this x) (prop this y)))))
+
     (class Point3D Point
       (begin
         (def constructor (this x y z)
@@ -32,8 +39,6 @@ module.exports = evalik => {
              (prop this z)))))
     (var p (new Point3D 10 20 30))
     ((prop p calc) p)
-   )
   `,
   60);
-*/
 };
