@@ -157,6 +157,28 @@ class Evalik {
             };
         }
 
+        //Class declaration (class <name> <parent> <body>)
+        if (exp[0] === 'class') {
+            const [_tag, name, parent, body] = exp;
+
+            const parentEnv = this.eval(parent, env) || env;
+            const classEnv = new Environment({}, parentEnv);
+
+            //Body is evaluated in the class env
+            this._evalBody(body, classEnv);
+
+            //Class is accesible by name
+            env.define(name, classEnv);
+        }
+
+        if (exp[0] === 'new') {
+            const classEnv = this.eval(exp[1]);
+
+            // An instance of a class is an environment,
+            // the parent component of instance environment is set to its class
+            const instanceEnv = new Environment({}, classEnv);
+        }
+
         //Func calls
         // (print "Hello, world!")
         // (+ x 5)
