@@ -323,8 +323,8 @@ const GlobalEnv = new Environment({
         }
         return args.reduce((acc, num) => acc - num);
     },
-    '*'(op1, op2) {
-        return op1 * op2;
+    '*'(...args) {
+        return args.reduce((acc, num) => acc * num);
     },
     '/'(op1, op2) {
         return op1 / op2;
