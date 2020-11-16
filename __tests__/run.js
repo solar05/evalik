@@ -24,13 +24,9 @@ const tests = [
 
 const evalik = new Evalik();
 
-evalik.eval(['print', '"Tests"', '"started!"']);
-
 function exec(code) {
     const exp = evalikParser.parse(code);
     return evalik.eval(exp);
 }
 
 tests.forEach(test => test(evalik));
-
-console.log("Assertions passed!");
