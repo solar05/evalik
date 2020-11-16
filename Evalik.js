@@ -314,14 +314,14 @@ const GlobalEnv = new Environment({
     VERSION: '0.1',
 
     //Math operations
-    '+'(op1, op2) {
-        return op1 + op2;
+    '+'(...args) {
+        return args.reduce((acc, num) => acc + num);
     },
-    '-'(op1, op2 = null) {
-        if (op2 === null) {
-            return -op1;
+    '-'(...args) {
+        if (args.length === 1) {
+            return -args[0];
         }
-        return op1 - op2;
+        return args.reduce((acc, num) => acc - num);
     },
     '*'(op1, op2) {
         return op1 * op2;
