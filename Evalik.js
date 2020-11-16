@@ -71,6 +71,20 @@ class Evalik {
             return result;
         }
 
+        //Func declaration
+        // (def square (x) (* x x))
+        if (exp[0] === 'def') {
+            const [_tag, name, params, body] = exp;
+
+            const fn = {
+                params,
+                body,
+                env //Closure
+            };
+
+            return env.define(name, fn);
+        }
+
         //Func calls
         // (print "Hello, world!")
         // (+ x 5)
@@ -85,9 +99,30 @@ class Evalik {
             if (typeof fn === 'function') {
                 return fn(...args);
             }
+
+            // User-defined functions
+            const activationRecord = {};
+
+            fn.params.forEach((param, index) => {
+                activationRecord[param] = args[index];
+            });
+
+            const activationEnv = new Environment(
+                activationRecord,
+                fn.env // static scope
+            );
+
+            return this._evalBody(fn.body, activationRecord);
         }
 
         throw `Not inplemented ${JSON.stringify(exp)}`;
+    }
+
+    _evalBody(body, env) {
+        if (body[0] === 'begin') {
+            return this._evalBlock(body, env);
+        }
+        return this.eval(body, env);
     }
 
     _evalBlock(block, env) {

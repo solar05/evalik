@@ -8,7 +8,8 @@ const tests = [
     require('./variables-test.js'),
     require('./if-test.js'),
     require('./while-test.js'),
-    require('./built-in-func-test.js')
+    require('./built-in-func-test.js'),
+    require('./user-defined-function-test.js')
 ];
 
 const evalik = new Evalik();
