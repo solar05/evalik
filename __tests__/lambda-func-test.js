@@ -17,4 +17,11 @@ module.exports = evalik => {
          `((lambda (x) (* x x)) 2)`,
          4);
 
+    // Save lambda to a variable
+    test(evalik,
+         `(begin
+            (var square (lambda (x) (* x x)))
+            (square 2))`,
+         4);
+
 };
