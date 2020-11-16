@@ -93,6 +93,50 @@ class Evalik {
             return this.eval(ifExp, env);
         }
 
+        // for loop
+        if (exp[0] === 'for') {
+            const whileExp = this._transformer
+                  .transformForToWhile(exp);
+
+            return this.eval(whileExp, env);
+        }
+
+        // increment by one (inc foo)
+        if (exp[0] === 'inc') {
+            const [_tag, name] = exp;
+            const value = env.lookup(name);
+
+            const setExp = this._transformer
+                  .transformIncToSet(name, value);
+
+            return this.eval(setExp, env);
+        }
+
+        // decrement by one (dec foo)
+        if (exp[0] === 'dec') {
+            const setExp = this._transformer
+                  .transformDecToSet(exp);
+
+            return this.eval(setExp, env);
+        }
+
+
+        // Add assign (+= foo)
+        if (exp[0] === '+=') {
+            const setExp = this._transformer
+                  .transformAddIncToSet(exp);
+
+            return this.eval(setExp, env);
+        }
+
+        // Sub assign (-= foo)
+        if (exp[0] === '-=') {
+            const setExp = this._transformer
+                  .transformSubDecToSet(exp);
+
+            return this.eval(setExp, env);
+        }
+
         //Lambda func (lambda (x) (* x x))
         if (exp[0] === 'lambda') {
             const [_tag, params, body] = exp;

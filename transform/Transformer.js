@@ -33,6 +33,14 @@ class Transformer {
 
         return ifExp;
     }
+
+    transformIncToSet(name, currentValue) {
+        const result = currentValue + 1;
+        return ['set', name, result];
+    }
+
+
+
 };
 
 module.exports = Transformer;
