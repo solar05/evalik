@@ -34,22 +34,12 @@ class Transformer {
         return ifExp;
     }
 
-    transformIncToSet(name, currentValue) {
-        const result = currentValue + 1;
-        return ['set', name, result];
-    }
-
-    transformDecToSet(name, currentValue) {
-        const result = currentValue - 1;
-        return ['set', name, result];
-    }
-
-    transformAddIncToSet(name, currentValue, num) {
+    transformIncToSet(name, currentValue, num = 1) {
         const result = currentValue + num;
         return ['set', name, result];
     }
 
-    transformSubDecToSet(name, currentValue, num) {
+    transformDecToSet(name, currentValue, num = 1) {
         const result = currentValue - num;
         return ['set', name, result];
     }

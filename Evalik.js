@@ -130,7 +130,7 @@ class Evalik {
             const value = env.lookup(name);
 
             const setExp = this._transformer
-                  .transformAddIncToSet(name, value, num);
+                  .transformIncToSet(name, value, num);
 
             return this.eval(setExp, env);
         }
@@ -141,7 +141,7 @@ class Evalik {
             const value = env.lookup(name);
 
             const setExp = this._transformer
-                  .transformSubDecToSet(name, value, num);
+                  .transformDecToSet(name, value, num);
 
             return this.eval(setExp, env);
         }
