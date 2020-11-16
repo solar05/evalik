@@ -15,3 +15,4 @@ My implementation of dynamic AST interpreter that called Evalik!
 - Classes
 - Modules
 - Imports
+- REPL (./bin/evalik -i)
