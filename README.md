@@ -16,3 +16,13 @@ My implementation of dynamic AST interpreter that called Evalik!
 - Modules
 - Imports
 - REPL (./bin/evalik -i)
+
+# Commands
+Evalik can directly executes like ./bin/evalik, interpreter has three options:
+- `-i` runs REPL;
+- `-e <some code>`  runs code after flag;
+- `-f <path to file>` executes code from specified file.
+
+Also project has dockerfile:
+- `make build` builds image;
+- `make run` run REPL.

@@ -1,4 +1,4 @@
 build:
 	docker build -t evalik .
-test:
+run:
 	docker run -it --rm evalik
