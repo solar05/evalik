@@ -2,6 +2,9 @@ const assert = require('assert');
 
 const Environment = require('./Environment.js');
 const Transformer = require('./transform/Transformer.js');
+const evalikParser = require('./parser/evalikParser.js');
+
+const fs = require('fs');
 
 /**
   * Evalik interpeter.
@@ -218,12 +221,20 @@ class Evalik {
         // Module declaration (module <name> <body>)
         if (exp[0] === 'module') {
             const [_tag, name, body] = exp;
-
             const moduleEnv = new Environment({}, env);
 
             this._evalBody(body, moduleEnv);
-
             return env.define(name, moduleEnv);
+        }
+
+        if (exp[0] === 'import') {
+            const [_tag, name] = exp;
+
+            const moduleSrc = fs.readFileSync(`${__dirname}/modules/${name}.ev`, 'utf-8');
+            const body = evalikParser.parse(`(begin ${moduleSrc})`);
+            const moduleExp = ['module', name, body];
+
+            return this.eval(moduleExp, this.global);
         }
 
         //Func calls
