@@ -12,4 +12,9 @@ module.exports = evalik => {
           (onClick (lambda (data) (* data 10))))`,
          600);
 
+    // IILE (Immeadiately-invoked lambda expression)
+    test(evalik,
+         `((lambda (x) (* x x)) 2)`,
+         4);
+
 };
