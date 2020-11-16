@@ -1,0 +1,31 @@
+#!/usr/bin/env node
+
+'use strict';
+
+const fs = require('fs');
+const evalikParser = require('../parser/evalikParser');
+const Evalik = require('../Evalik');
+
+function evalGlobal(src, evalik) {
+    const exp = evalikParser.parse(`(begin ${src})`);
+    return evalik.evalGlobal(exp);
+}
+
+function main(argv) {
+    const [_node, _path, mode, exp] = argv;
+
+    const evalik = new Evalik();
+
+    //Direct expression
+    if (mode === '-e') {
+        return evalGlobal(exp, evalik);
+    }
+
+    //File evaluating
+    if (mode === '-f') {
+        const src = fs.readFileSync(exp, 'utf-8');
+        return evalGlobal(src, evalik);
+    }
+}
+
+main(process.argv);
