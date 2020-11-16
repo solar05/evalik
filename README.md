@@ -1,3 +1,5 @@
+![CI](https://github.com/solar05/evalik/workflows/CI/badge.svg)
+
 # Description
 My implementation of dynamic AST interpreter that called Evalik!
 
