@@ -11,7 +11,7 @@ module.exports = evalik => {
 
     test(evalik,
          `(begin
-            (def calc (x, y)
+            (def calc (x y)
               (begin
                 (var z 20)
                 (+ (* x y) z)))
@@ -22,15 +22,15 @@ module.exports = evalik => {
     test(evalik,
          `(begin
             (var val 100)
-            (def calc (x, y)
+            (def calc (x y)
               (begin
                 (var z (+ x y))
                 (def inner (bar)
                   (+ (+ z bar) val))
                   inner
               ))
-          (var fn (calc 10 20)))
-          (fn 30)`,
+          (var fn (calc 10 20))
+          (fn 30))`,
          160);
 
 

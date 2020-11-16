@@ -112,7 +112,7 @@ class Evalik {
                 fn.env // static scope
             );
 
-            return this._evalBody(fn.body, activationRecord);
+            return this._evalBody(fn.body, activationEnv);
         }
 
         throw `Not inplemented ${JSON.stringify(exp)}`;
