@@ -49,6 +49,11 @@ class Transformer {
         return ['set', name, result];
     }
 
+    transformSubDecToSet(name, currentValue, num) {
+        const result = currentValue - num;
+        return ['set', name, result];
+    }
+
 };
 
 module.exports = Transformer;

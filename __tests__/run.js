@@ -14,7 +14,8 @@ const tests = [
     require('./switch-test.js'),
     require('./increment-test.js'),
     require('./decrement-test.js'),
-    require('./increment-assign-test.js')
+    require('./increment-assign-test.js'),
+    require('./decrement-assign-test.js')
 ];
 
 const evalik = new Evalik();
