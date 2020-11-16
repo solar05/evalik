@@ -19,9 +19,8 @@ class Evalik {
     /**
       * Evaluates global code wrapping into a block
       */
-    evalGlobal(expressions) {
-        return this._evalBlock(['block', expressions],
-                               this.global);
+    evalGlobal(exp) {
+        return this._evalBody(exp, this.global);
     }
 
     /**
@@ -214,6 +213,17 @@ class Evalik {
 
             const instanceEnv = this.eval(instance, env);
             return instanceEnv.lookup(name);
+        }
+
+        // Module declaration (module <name> <body>)
+        if (exp[0] === 'module') {
+            const [_tag, name, body] = exp;
+
+            const moduleEnv = new Environment({}, env);
+
+            this._evalBody(body, moduleEnv);
+
+            return env.define(name, moduleEnv);
         }
 
         //Func calls
