@@ -16,6 +16,13 @@ class Evalik {
         this._transformer = new Transformer();
     }
 
+    /**
+      * Evaluates global code wrapping into a block
+      */
+    evalGlobal(expressions) {
+        return this._evalBlock(['block', expressions],
+                               this.global);
+    }
 
     /**
        * Evaluates an expression in given env
