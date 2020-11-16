@@ -26,3 +26,5 @@ Evalik can directly executes like ./bin/evalik, interpreter has three options:
 Also project has dockerfile:
 - `make build` builds image;
 - `make run` run REPL.
+
+For running test `make test` command is used.
