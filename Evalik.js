@@ -177,6 +177,22 @@ class Evalik {
             // An instance of a class is an environment,
             // the parent component of instance environment is set to its class
             const instanceEnv = new Environment({}, classEnv);
+
+            const args = exp
+                  .slice(2)
+                  .map(arg => this.eval(arg, env));
+
+            this._callUserDefinedFunction(classEnv.lookup('constructor'),
+                                          [instanceEnv, ...args]);
+
+            return instanceEnv;
+        }
+
+        //Property access
+        if (exp[0] == 'prop') {
+            const [_tag, instance, name] = exp;
+            const instanceEnv = this.eval(instance, env);
+            return instanceEnv.lookup(name);
         }
 
         //Func calls
@@ -195,21 +211,25 @@ class Evalik {
             }
 
             // User-defined functions
-            const activationRecord = {};
-
-            fn.params.forEach((param, index) => {
-                activationRecord[param] = args[index];
-            });
-
-            const activationEnv = new Environment(
-                activationRecord,
-                fn.env // static scope
-            );
-
-            return this._evalBody(fn.body, activationEnv);
+            return this._callUserDefinedFunction(fn, args);
         }
 
         throw `Not inplemented ${JSON.stringify(exp)}`;
+    }
+
+    _callUserDefinedFunction(fn, args) {
+        const activationRecord = {};
+
+        fn.params.forEach((param, index) => {
+            activationRecord[param] = args[index];
+        });
+
+        const activationEnv = new Environment(
+            activationRecord,
+            fn.env // static scope
+        );
+
+        return this._evalBody(fn.body, activationEnv);
     }
 
     _evalBody(body, env) {
